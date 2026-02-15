@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hilos de plata - Joyas que enamoran</title>
+    <meta name="description" content="Tienda de joyas de plata artesanales. Diseños únicos que cuentan historias.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --silver: #c0c0c0;
+            --dark-silver: #8c8c8c;
+            --cream: #faf8f5;
+            --charcoal: #2d2d2d;
+            --accent: #d4af37;
+            --white: #ffffff;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: var(--cream);
+            color: var(--charcoal);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300;
+        }
+        
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(250, 248, 245, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(192, 192, 192, 0.2);
+            animation: slideDown 0.8s ease;
+        }
+        
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        nav {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            font-weight: 300;
+            color: var(--charcoal);
+            letter-spacing: 2px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--charcoal);
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        /* Hero Section */
+        .hero {
+            margin-top: 80px;
+            height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #faf8f5 0%, #f0ede8 100%);
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(192, 192, 192, 0.1) 0%, transparent 70%);
+            animation: float 20s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(-50px, 50px) rotate(180deg); }
+        }
+        
+        .hero-content {
+            text-align: center;
+            z-index: 1;
+            animation: fadeInUp 1s ease 0.3s both;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .hero h1 {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+            color: var(--charcoal);
+            letter-spacing: 3px;
+        }
+        
+        .hero-subtitle {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            color: var(--dark-silver);
+            font-weight: 300;
+            font-style: italic;
+            margin-bottom: 3rem;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 3rem;
+            background: var(--charcoal);
+            color: var(--white);
+            text-decoration: none;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            transition: all 0.4s ease;
+            border: 2px solid var(--charcoal);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--accent);
+            transition: left 0.4s ease;
+            z-index: -1;
+        }
+        
+        .cta-button:hover::before {
+            left: 0;
+        }
+        
+        .cta-button:hover {
+            border-color: var(--accent);
+        }
+        
+        /* Loading State */
+        .loading {
+            text-align: center;
+            padding: 4rem 2rem;
+            font-size: 1.2rem;
+            color: var(--dark-silver);
+        }
+        
+        .loading::after {
+            content: '...';
+            animation: dots 1.5s infinite;
+        }
+        
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60%, 100% { content: '...'; }
+        }
+        
+        /* Category Section */
+        .category-section {
+            max-width: 1400px;
+            margin: 6rem auto;
+            padding: 0 2rem;
+        }
+        
+        .category-title {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--charcoal);
+            text-align: center;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+        
+        .category-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 2px;
+            background: var(--accent);
+        }
+        
+        .category-subtitle {
+            text-align: center;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            color: var(--dark-silver);
+            margin-bottom: 4rem;
+            font-style: italic;
+        }
+        
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 3rem;
+            margin-bottom: 4rem;
+        }
+        
+        .product-card {
+            background: var(--white);
+            border-radius: 2px;
+            overflow: hidden;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            animation: fadeInUp 0.8s ease both;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+        
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
+        }
+        
+        .product-info {
+            padding: 2rem;
+        }
+        
+        .product-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            color: var(--charcoal);
+        }
+        
+        .product-description {
+            font-size: 0.9rem;
+            color: var(--dark-silver);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+            min-height: 60px;
+        }
+        
+        .product-price {
+            font-size: 1.5rem;
+            color: var(--accent);
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+        
+        .buy-button {
+            width: 100%;
+            padding: 0.8rem;
+            background: transparent;
+            border: 2px solid var(--charcoal);
+            color: var(--charcoal);
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .buy-button:hover {
+            background: var(--charcoal);
+            color: var(--white);
+        }
+        
+        /* About Section */
+        .about {
+            background: var(--white);
+            padding: 8rem 2rem;
+            margin: 8rem 0;
+        }
+        
+        .about-content {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .about h2 {
+            font-size: 3.5rem;
+            margin-bottom: 2rem;
+            color: var(--charcoal);
+        }
+        
+        .about p {
+            font-size: 1.1rem;
+            line-height: 2;
+            color: var(--dark-silver);
+            margin-bottom: 1.5rem;
+        }
+        
+        /* Contact Section */
+        .contact {
+            max-width: 800px;
+            margin: 8rem auto;
+            padding: 0 2rem;
+            text-align: center;
+        }
+        
+        .contact h2 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            color: var(--charcoal);
+        }
+        
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+        
+        .contact-item {
+            text-align: center;
+        }
+        
+        .contact-item i {
+            font-size: 2rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            display: block;
+        }
+        
+        .contact-item p {
+            color: var(--dark-silver);
+            font-size: 1.1rem;
+        }
+        
+        .contact-item a {
+            color: var(--charcoal);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .contact-item a:hover {
+            color: var(--accent);
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--charcoal);
+            color: var(--cream);
+            text-align: center;
+            padding: 3rem 2rem;
+            margin-top: 8rem;
+        }
+        
+        footer p {
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .social-links a {
+            color: var(--cream);
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .social-links a:hover {
+            color: var(--accent);
+        }
+        
+        /* Mobile Menu */
+        .mobile-menu-button {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--charcoal);
+            cursor: pointer;
+        }
+        
+        /* Error Message */
+        .error-message {
+            max-width: 800px;
+            margin: 4rem auto;
+            padding: 2rem;
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .error-message h3 {
+            color: #856404;
+            margin-bottom: 1rem;
+        }
+        
+        .error-message p {
+            color: #856404;
+            line-height: 1.8;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-menu-button {
+                display: block;
+            }
+            
+            .hero h1 {
+                font-size: 3rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.3rem;
+            }
+            
+            .category-title {
+                font-size: 2.5rem;
+            }
+            
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .contact-info {
+                flex-direction: column;
+                gap: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo">Hilos de plata</div>
+            <ul class="nav-links">
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#collares">Collares</a></li>
+                <li><a href="#aretes">Aretes</a></li>
+                <li><a href="#pulseras">Pulseras</a></li>
+                <li><a href="#anillos">Anillos</a></li>
+                <li><a href="#nosotros">Nosotros</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+            <button class="mobile-menu-button">☰</button>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="hero">
+        <div class="hero-content">
+            <h1>Hilos de plata</h1>
+            <p class="hero-subtitle">Joyas que enamoran</p>
+            <a href="#collares" class="cta-button">Ver Colección</a>
+        </div>
+    </section>
+
+    <!-- Products Container (will be populated dynamically) -->
+    <div id="products-container">
+        <div class="loading">Cargando productos</div>
+    </div>
+
+    <!-- About Section -->
+    <section id="nosotros" class="about">
+        <div class="about-content">
+            <h2>Nuestra Historia</h2>
+            <p>
+                En <strong>Hilos de plata</strong>, cada joya es creada con amor y dedicación. 
+                Trabajamos con plata 925 de la más alta calidad para ofrecerte piezas únicas 
+                que acompañarán tus momentos más especiales.
+            </p>
+            <p>
+                Nuestro compromiso es crear joyas que no solo embellecen, sino que cuentan historias 
+                y crean conexiones emocionales. Cada diseño es pensado para enamorar y perdurar en el tiempo.
+            </p>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contacto" class="contact">
+        <h2>Contáctanos</h2>
+        <p class="category-subtitle">Estamos aquí para ayudarte</p>
+        
+        <div class="contact-info">
+            <div class="contact-item">
+                <i>📱</i>
+                <p><a href="https://wa.me/51999999999" id="whatsapp-link">+51 999 999 999</a></p>
+            </div>
+            <div class="contact-item">
+                <i>📧</i>
+                <p><a href="mailto:info@hilosdeplata.com">info@hilosdeplata.com</a></p>
+            </div>
+            <div class="contact-item">
+                <i>📍</i>
+                <p>Lima, Perú</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="social-links">
+            <a href="https://facebook.com" target="_blank">Facebook</a>
+            <a href="https://instagram.com" target="_blank">Instagram</a>
+            <a href="https://tiktok.com" target="_blank">TikTok</a>
+        </div>
+        <p>&copy; 2026 Hilos de plata. Todos los derechos reservados.</p>
+        <p style="margin-top: 1rem; font-size: 0.8rem; opacity: 0.7;">Joyas que enamoran ♥</p>
+    </footer>
+
+    <script>
+        // ============================================
+        // CONFIGURACIÓN - CAMBIA ESTOS VALORES
+        // ============================================
+        
+        // 1. ID de tu Google Sheet (lo encuentras en la URL)
+        // Ejemplo: https://docs.google.com/spreadsheets/d/ESTE_ES_EL_ID/edit
+        const SHEET_ID = 'TU_SHEET_ID_AQUI';
+        
+        // 2. Número de tu WhatsApp (incluye código de país sin +)
+        const WHATSAPP_NUMBER = '51999999999';
+        
+        // 3. Nombre de la pestaña/hoja en tu Google Sheet (usualmente "Hoja 1")
+        const SHEET_NAME = 'Hoja 1';
+        
+        // ============================================
+        // NO NECESITAS MODIFICAR NADA MÁS ABAJO
+        // ============================================
+        
+        // Categorías y sus emojis
+        const categories = {
+            'collar': { name: 'Collares', emoji: '💎', id: 'collares' },
+            'arete': { name: 'Aretes', emoji: '✨', id: 'aretes' },
+            'pulsera': { name: 'Pulseras', emoji: '🔗', id: 'pulseras' },
+            'anillo': { name: 'Anillos', emoji: '💍', id: 'anillos' }
+        };
+        
+        // Función para cargar productos desde Google Sheets
+        async function loadProducts() {
+            try {
+                const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}`;
+                
+                const response = await fetch(url);
+                const text = await response.text();
+                
+                // Google Sheets devuelve JSONP, necesitamos extraer el JSON
+                const json = JSON.parse(text.substr(47).slice(0, -2));
+                
+                const rows = json.table.rows;
+                
+                // Organizar productos por categoría
+                const productsByCategory = {
+                    'collar': [],
+                    'arete': [],
+                    'pulsera': [],
+                    'anillo': []
+                };
+                
+                // Procesar cada fila (saltamos la primera que son los encabezados)
+                rows.slice(1).forEach(row => {
+                    const cells = row.c;
+                    
+                    // Verificar que la fila tenga datos
+                    if (!cells || !cells[0] || !cells[0].v) return;
+                    
+                    const product = {
+                        nombre: cells[0]?.v || '',
+                        descripcion: cells[1]?.v || '',
+                        precio: cells[2]?.v || '0',
+                        imagen: cells[3]?.v || '',
+                        categoria: (cells[4]?.v || '').toLowerCase().trim()
+                    };
+                    
+                    // Agregar a la categoría correspondiente
+                    if (productsByCategory[product.categoria]) {
+                        productsByCategory[product.categoria].push(product);
+                    }
+                });
+                
+                // Renderizar productos
+                renderProducts(productsByCategory);
+                
+            } catch (error) {
+                console.error('Error cargando productos:', error);
+                showError();
+            }
+        }
+        
+        // Función para renderizar productos
+        function renderProducts(productsByCategory) {
+            const container = document.getElementById('products-container');
+            container.innerHTML = '';
+            
+            let hasProducts = false;
+            
+            // Crear sección para cada categoría
+            Object.keys(categories).forEach(categoryKey => {
+                const products = productsByCategory[categoryKey];
+                
+                if (products && products.length > 0) {
+                    hasProducts = true;
+                    const categoryInfo = categories[categoryKey];
+                    
+                    const section = document.createElement('section');
+                    section.id = categoryInfo.id;
+                    section.className = 'category-section';
+                    
+                    section.innerHTML = `
+                        <h2 class="category-title">${categoryInfo.emoji} ${categoryInfo.name}</h2>
+                        <p class="category-subtitle">Encuentra la pieza perfecta para ti</p>
+                        <div class="product-grid"></div>
+                    `;
+                    
+                    const grid = section.querySelector('.product-grid');
+                    
+                    products.forEach((product, index) => {
+                        const card = createProductCard(product, index);
+                        grid.appendChild(card);
+                    });
+                    
+                    container.appendChild(section);
+                }
+            });
+            
+            if (!hasProducts) {
+                showError('No se encontraron productos en el Google Sheet.');
+            }
+        }
+        
+        // Función para crear tarjeta de producto
+        function createProductCard(product, index) {
+            const card = document.createElement('div');
+            card.className = 'product-card';
+            card.style.animationDelay = `${index * 0.1}s`;
+            
+            // Formatear precio
+            const priceFormatted = typeof product.precio === 'number' 
+                ? `S/ ${product.precio.toFixed(2)}` 
+                : `S/ ${product.precio}`;
+            
+            card.innerHTML = `
+                <div class="product-image">
+                    ${product.imagen ? `<img src="${product.imagen}" alt="${product.nombre}" onerror="this.style.display='none'">` : ''}
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">${product.nombre}</h3>
+                    <p class="product-description">${product.descripcion}</p>
+                    <p class="product-price">${priceFormatted}</p>
+                    <button class="buy-button" onclick="contactWhatsApp('${product.nombre}', '${priceFormatted}')">
+                        Consultar por WhatsApp
+                    </button>
+                </div>
+            `;
+            
+            return card;
+        }
+        
+        // Función para mostrar error
+        function showError(customMessage) {
+            const container = document.getElementById('products-container');
+            container.innerHTML = `
+                <div class="error-message">
+                    <h3>⚠️ Error al cargar productos</h3>
+                    <p>${customMessage || 'No se pudieron cargar los productos desde Google Sheets.'}</p>
+                    <p style="margin-top: 1rem;">
+                        <strong>Verifica:</strong><br>
+                        1. Que hayas configurado el SHEET_ID correcto<br>
+                        2. Que el Google Sheet esté configurado como público<br>
+                        3. Que la hoja se llame "${SHEET_NAME}"<br>
+                        4. Que tengas las columnas: nombre, descripcion, precio, imagen, categoria
+                    </p>
+                </div>
+            `;
+        }
+        
+        // Función para contactar por WhatsApp
+        function contactWhatsApp(productName, productPrice) {
+            const message = `Hola! Estoy interesado en: ${productName} - ${productPrice}`;
+            const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+            window.open(url, '_blank');
+        }
+        
+        // Actualizar enlace de WhatsApp en la sección de contacto
+        document.getElementById('whatsapp-link').href = `https://wa.me/${WHATSAPP_NUMBER}`;
+        document.getElementById('whatsapp-link').textContent = `+${WHATSAPP_NUMBER}`;
+        
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Mobile menu toggle
+        const mobileMenuBtn = document.querySelector('.mobile-menu-button');
+        const navLinks = document.querySelector('.nav-links');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            if (navLinks.style.display === 'flex') {
+                navLinks.style.display = 'none';
+            } else {
+                navLinks.style.display = 'flex';
+                navLinks.style.position = 'absolute';
+                navLinks.style.top = '100%';
+                navLinks.style.left = '0';
+                navLinks.style.width = '100%';
+                navLinks.style.flexDirection = 'column';
+                navLinks.style.background = 'var(--cream)';
+                navLinks.style.padding = '2rem';
+                navLinks.style.gap = '1.5rem';
+            }
+        });
+        
+        // Cargar productos al cargar la página
+        window.addEventListener('load', loadProducts);
+    </script>
+</body>
+</html>
